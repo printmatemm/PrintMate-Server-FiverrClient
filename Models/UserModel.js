@@ -11,30 +11,6 @@ const VidMe_User = new Schema(
         {   type: String, required: true,},
         Password: 
         {   type: String, required: true},
-        Phone:
-        {   type: String, required: true },
-        ProfilePicture:
-        {   type: String, required: false },  
-        CoverPicture:
-        {   type: String, required: false },
-        Followers:
-        {   type: Array, required: false },
-        Following:
-        {   type: Array, required: false },
-        Video:
-        {   type: Array, required: false },
-        Requests:
-        {
-            type: Array,
-        },
-        ProfileLink:
-        {
-            type: String, 
-        },
-        ProfileStatus:
-        {
-            type: String,
-        },
         timestamp: 
         {
             type: Date,
