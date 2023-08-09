@@ -25,8 +25,6 @@ const UserLogin = async (Req, Res) => {
       return Res.status(400).json({ Error: "An Error Occured" });
   }
 };
-const { v4: uuidv4 } = require('uuid');
-
 
 const CreateAccount = async (Req, Res) => {
     try 
@@ -40,18 +38,13 @@ const CreateAccount = async (Req, Res) => {
 
         const Salt = await bcrypt.genSalt(10);
         Req.body.Password = await bcrypt.hash(Req.body.Password, Salt);
-
-        const emailBeforeAt = Req.body.Email.split('@')[0];
-        const uniqueId = uuidv4();
-        const userLink = `/${emailBeforeAt}-${uniqueId}`;
-        
+      
         const SaveUser = new User({
             FirstName : Req.body.FirstName,
             LastName : Req.body.LastName,
             Email: Req.body.Email,
             Password: Req.body.Password,
             Phone : Req.body.Phone,
-            ProfileLink: userLink,
         })
         const AddedUser = await SaveUser.save();
         Res.status(200).send({ Success: true , AddedUser }); 
