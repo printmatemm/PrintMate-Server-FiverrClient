@@ -40,7 +40,6 @@ const QuotationModel = require("./Models/QuotationModel")
 
 app.post('/addQuotation', async (req, res) => {
     try {
-        console.log(req.body);
         const newQuotation = new QuotationModel({
             Name: req.body.Name,
             Email: req.body.Email,
@@ -61,7 +60,11 @@ app.post('/addQuotation', async (req, res) => {
             DrillOption : req.body.DrillOption,
             RollerBannerType: req.body.RollerBannerType,
             FlagType :  req.body.FlagType,
-            AmountOfPrintedPages : req.body.AmountOfPrintedPages
+            AmountOfPrintedPages : req.body.AmountOfPrintedPages,
+            CoverOption: req.body.CoverOptiont,
+            FolderType : req.body.FolderType,
+            Finishing: req.body.Finishing,
+            MenuType: req.body.MenuType
         });
 
         const savedQuotation = await newQuotation.save();
@@ -76,6 +79,95 @@ app.post('/addQuotation', async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred while adding the quotation' });
     }
 });
+
+app.delete('/deleteQuotation' , async (req,res)=>
+{
+    try {
+        const deletedQuotation = await QuotationModel.findByIdAndDelete(req.body.id);
+        if (deletedQuotation) {
+            res.status(200).json({ success: true, message: 'Quotation deleted successfully' });
+        } else {
+            res.status(404).json({ success: false, message: 'Quotation not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'An error occurred while deleting the quotation' });
+    }
+})
+
+app.get('/getContactedQuotations', async (req, res) => {
+    try {
+        console.log('Hi')
+        const contactedQuotations = await QuotationModel.find({ Status: 'Contacted' });
+        if (contactedQuotations) {
+            res.status(200).json({ success: true, contactedQuotations });
+        } else {
+            res.status(404).json({ success: false, message: 'No contacted quotations found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'An error occurred while getting the contacted quotations' });
+    }
+});
+
+app.get('/getUncontactedQuotations' , async (req,res)=>{
+    try {
+        const uncontactedQuotations = await QuotationModel.find({ Status: 'Not Contacted' });
+        if (uncontactedQuotations) {
+            res.status(200).json({ success: true, uncontactedQuotations });
+        } else {
+            res.status(404).json({ success: false, message: 'No uncontacted quotations found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'An error occurred while getting the uncontacted quotations' });
+    }
+})        
+
+app.put('/MarkContacted' , async (req,res)=>
+{
+    try
+    {
+        let id= req.body.id;
+        const UpdatedQuotation = await QuotationModel.findByIdAndUpdate({
+            _id: id
+        },
+        {
+            Status: 'Contacted'
+        },
+        {
+            new: true
+
+        })
+        if (UpdatedQuotation) {
+            res.status(200).json({ success: true, UpdatedQuotation });
+        }
+        else {
+            res.status(404).json({ success: false, message: 'No quotation found' });
+        }
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'An error occurred while updating the quotation' });
+    }
+})
+
+app.delete('/DeleteQuote' , async (req,res)=>{
+    try{
+        let id = req.body.id;
+        const DeletedQuotation = await QuotationModel.findByIdAndDelete(id);
+        if (DeletedQuotation) {
+            res.status(200).json({ success: true, DeletedQuotation });
+        }
+        else {
+            res.status(404).json({ success: false, message: 'No quotation found' });
+        }
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'An error occurred while deleting the quotation' });
+    }
+})
 
 
 app.listen( PORT , ()=> {console.log(`LISTENING AT PORT: ${PORT}`)} )

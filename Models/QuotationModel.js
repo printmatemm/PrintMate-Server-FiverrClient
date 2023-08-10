@@ -75,6 +75,27 @@ const QuotationModel = new Schema(
         {
             type: String,
         },
+        CoverOption:
+        {
+            type: String,
+        },
+        FolderType:
+        {
+            type: String,
+        },
+        Finishing:
+        {
+            type: String,
+        },
+        MenuType:
+        {
+            type: String,
+        },
+        Status:
+        {
+            type: String,
+            default: 'Not Contacted',
+        },
         timestamp: 
         {
             type: Date,

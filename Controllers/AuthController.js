@@ -18,7 +18,7 @@ const UserLogin = async (Req, Res) => {
       const Data = { user: { id: UserFound.id } };
       const AuthToken = jwt.sign(Data, SECRET_KEY);
 
-      UserFound = await User.findOne({ email: Req.body.email}).select("-password")
+      UserFound = await User.findOne({ email: Req.body.Email}).select("-password")
 
       Res.json({ Success: true, AuthToken: AuthToken  , UserFound});
   } catch (error) {
