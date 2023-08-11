@@ -17,7 +17,13 @@ const DATABASE_STRING = process.env.DATABASE_CONNECTION
 app.use(express.json())
 app.use(cors(
     {
-        origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],        
+        origin: ['http://localhost:3000', 
+        'http://127.0.0.1:3000',
+        'https://print-mate-client-side.vercel.app',
+        'https://www.printmate.uk',
+        "https://print-mate-client-side.vercel.app/",
+        'https://www.printmate.uk/',            
+    ],        
     }
 ));
 app.use(express.urlencoded({ extended: true }));
